@@ -12,10 +12,21 @@
     padding: 0;
   }
 
+  body {
+    height: 100vh;
+  }
+
+  .wrap {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .kbd {
     display: inline-block;
     width: 50px;
-    height: 40xp;
+    height: 40px;
     background-color: grey;
   }
   </style>
@@ -49,14 +60,21 @@
       var div = tag("div")
       wrap.appendChild(div)
       for (var j = 0; j < keys[i].length; j++) {
-        var kbd = tag("kbd")
+        var kbd = tag("span")
         var span = tag("span")
         kbd.className = "kbd"
         div.appendChild(kbd)
         kbd.appendChild(span)
         span.innerText = keys[i][j]
       }
+    }
 
+    document.onkeypress = function(e){
+      console.log(e)
+      var key = e.key
+      console.log(key)
+      var website = hash[key]
+      window.open("http://"+website,"_blank")
     }
 
 
