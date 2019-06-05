@@ -60,12 +60,15 @@
       var div = tag("div")
       wrap.appendChild(div)
       for (var j = 0; j < keys[i].length; j++) {
-        var kbd = tag("span")
+        var kbd = tag("kbd")
         var span = tag("span")
+        var button = tag("button")
         kbd.className = "kbd"
         div.appendChild(kbd)
         kbd.appendChild(span)
+        kbd.appendChild(button)
         span.innerText = keys[i][j]
+        button.innerText = "编辑"
       }
     }
 
@@ -83,6 +86,8 @@
     function tag(tagName) {
       return document.createElement(tagName)
     }
+
+
   </script>
 </body>
 
