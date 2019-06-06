@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>draw</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    #canvas {
+      background: pink;
+      height: 100vh;
+      position: relative;
+    }
+
+
+    .draw {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #000;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <div id="canvas"></div>
+  </div>
+  <script>
+    var canvas = document.getElementById("canvas")
+    var flag = false
+    // 鼠标按下
+    canvas.onmousedown = function (e) {
+      flag = true
+      var x = e.clientX
+      var y = e.clientY
+      var div = document.createElement("div")
+      div.className = "draw"
+      div.style = "left: "+(x-5)+"px;"+"top: "+(y-5)+"px;"
+      canvas.appendChild(div)
+    }
+
+
+    // 鼠标动
+    canvas.onmousemove = function (e) {
+      if(flag){
+      var x = e.clientX
+      var y = e.clientY
+      var div = document.createElement("div")
+      div.className = "draw"
+      div.style = "left: "+(x-5)+"px;"+"top: "+(y-5)+"px;"
+      canvas.appendChild(div)
+      }
+    }
+
+    // 鼠标松开
+    canvas.onmouseup = function (e) {
+      flag = false
+    }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>canvas_drawing</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+
+    canvas {
+      background-color: pink;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas"></canvas>
+
+  <script>
+    var canvas = document.getElementById("canvas")
+    var ctx = canvas.getContext("2d")
+    var flag = false
+    var lastPoint = {x:undefined,y:undefined}
+
+    canvas.onmousedown = function (e) {
+      flag = true
+      var x = e.clientX
+      var y = e.clientY
+      circle(x, y)
+      lastPoint = {x:x,y:y}
+    }
+
+    canvas.onmousemove = function (e) {
+      if (flag) {
+        var x = e.clientX
+        var y = e.clientY
+        circle(x, y)
+        var newPoint = {x:x,y:y}
+        drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y)
+        lastPoint = newPoint
+      }
+    }
+
+
+    canvas.onmouseup = function(e){
+      flag = false
+    }
+
+
+    function circle(x, y) {
+      ctx.fillStyle = "red"
+      ctx.beginPath()
+      ctx.arc(x, y, 3, 0, Math.PI * 2, false)
+      ctx.fill()
+    }
+
+    function drawLine(x1,y1,x2,y2){
+      ctx.beginPath()
+      ctx.strokeStyle = "red"
+      ctx.moveTo(x1,y1)
+      ctx.lineWidth = 6
+      ctx.lineTo(x2,y2)
+      ctx.stroke()
+    }
+  </script>
+</body>
+
+</html>
