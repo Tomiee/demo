@@ -7,65 +7,105 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>canvas_drawing</title>
   <style>
-    *{
+    * {
       margin: 0;
       padding: 0;
     }
 
     canvas {
+      margin: 0;
+      padding: 0;
       background-color: pink;
+    }
+
+    button {
+      position: absolute;
+      left: 0;
+      bottom: 0;
     }
   </style>
 </head>
 
 <body>
   <canvas id="canvas"></canvas>
-
+  <button id="eraser">橡皮擦</button>
   <script>
     var canvas = document.getElementById("canvas")
     var ctx = canvas.getContext("2d")
     var flag = false
-    var lastPoint = {x:undefined,y:undefined}
+    var lastPoint = {
+      x: undefined,
+      y: undefined
+    }
+
+    resize()
+
+    window.onresize = function () {
+      resize()
+    }
 
     canvas.onmousedown = function (e) {
       flag = true
       var x = e.clientX
       var y = e.clientY
-      circle(x, y)
-      lastPoint = {x:x,y:y}
+      lastPoint = {
+        x: x,
+        y: y
+      }
+      if (useEraser) {
+        ctx.clearRect(x - 5, y - 5, 10, 10)
+        console.log(11)
+      }
     }
 
     canvas.onmousemove = function (e) {
       if (flag) {
         var x = e.clientX
         var y = e.clientY
-        circle(x, y)
-        var newPoint = {x:x,y:y}
-        drawLine(lastPoint.x,lastPoint.y,newPoint.x,newPoint.y)
-        lastPoint = newPoint
+        if (useEraser) {
+          ctx.clearRect(x - 5, y - 5, 10, 10)
+        } else {
+          var newPoint = {
+            x: x,
+            y: y
+          }
+          drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
+          lastPoint = newPoint
+        }
       }
     }
 
-
-    canvas.onmouseup = function(e){
+    canvas.onmouseup = function (e) {
       flag = false
     }
 
 
-    function circle(x, y) {
-      ctx.fillStyle = "red"
+    // function circle(x, y) {
+    //   ctx.fillStyle = "black"
+    //   ctx.beginPath()
+    //   ctx.arc(x, y, 2, 0, Math.PI * 2, false)
+    //   ctx.fill()
+    // }
+
+    function drawLine(x1, y1, x2, y2) {
       ctx.beginPath()
-      ctx.arc(x, y, 3, 0, Math.PI * 2, false)
-      ctx.fill()
+      ctx.strokeStyle = "black"
+      ctx.moveTo(x1, y1)
+      ctx.lineWidth = 4
+      ctx.lineTo(x2, y2)
+      ctx.stroke()
     }
 
-    function drawLine(x1,y1,x2,y2){
-      ctx.beginPath()
-      ctx.strokeStyle = "red"
-      ctx.moveTo(x1,y1)
-      ctx.lineWidth = 6
-      ctx.lineTo(x2,y2)
-      ctx.stroke()
+    function resize() {
+      var pageWidth = document.documentElement.clientWidth
+      var pageHeight = document.documentElement.clientHeight
+      canvas.width = pageWidth
+      canvas.height = pageHeight
+    }
+
+    var useEraser = false
+    eraser.onclick = function () {
+      useEraser = !useEraser
     }
   </script>
 </body>
