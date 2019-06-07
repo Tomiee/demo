@@ -13,26 +13,37 @@
     }
 
     canvas {
-      margin: 0;
-      padding: 0;
       background-color: pink;
+      display: block;
     }
 
-    button {
+    .button {
       position: fixed;
       left: 0;
-      bottom: 0;
+      bottom: 20px;
     }
+
+    .x {
+      display: none;
+    }
+
+
   </style>
 </head>
 
 <body>
   <canvas id="canvas"></canvas>
-  <button id="eraser">橡皮擦</button>
+  <div>
+      <button id="eraser" class="button">橡皮擦</button>
+      <button id="brush" class="button x">画笔</button>
+  </div>
+
+
   <script>
     var canvas = document.getElementById("canvas")
     var ctx = canvas.getContext("2d")
     var flag = false
+    var useEraser = false
     var lastPoint = {
       x: undefined,
       y: undefined
@@ -102,10 +113,18 @@
       canvas.height = pageHeight
     }
 
-    var useEraser = false
     eraser.onclick = function () {
-      useEraser = !useEraser
+      useEraser = true
+      eraser.className = "x"
+      brush.className = "button"
     }
+
+    brush.onclick = function(){
+      useEraser = false
+      brush.className = "x" 
+      eraser.className = "button"
+    }
+    
   </script>
 </body>
 
