@@ -7,6 +7,14 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>canvas_drawing</title>
   <style>
+    .icon {
+      width: 1em;
+      height: 1em;
+      vertical-align: -0.15em;
+      fill: currentColor;
+      overflow: hidden;
+    }
+
     * {
       margin: 0;
       padding: 0;
@@ -18,24 +26,33 @@
     }
 
     .button {
+      padding: 20px;
       position: fixed;
       left: 0;
       bottom: 20px;
     }
-
-    .x {
-      display: none;
+    
+    .button svg {
+      width: 1.5em;
+      height: 1.5em;
     }
-
-
+    
+    .button svg.active{
+      fill: red;
+      transform: scale(1.5)
+    }
   </style>
 </head>
 
 <body>
   <canvas id="canvas"></canvas>
-  <div>
-      <button id="eraser" class="button">橡皮擦</button>
-      <button id="brush" class="button x">画笔</button>
+  <div class="button">
+    <svg class="icon active" aria-hidden="true" id="brush">
+      <use xlink:href="#icon-brush"></use>
+    </svg>
+    <svg class="icon" aria-hidden="true" id="eraser"> 
+      <use xlink:href="#icon-eraser"></use>
+    </svg>
   </div>
 
 
@@ -55,40 +72,12 @@
       resize()
     }
 
-    canvas.onmousedown = function (e) {
-      flag = true
-      var x = e.clientX
-      var y = e.clientY
-      lastPoint = {
-        x: x,
-        y: y
-      }
-      if (useEraser) {
-        ctx.clearRect(x - 5, y - 5, 10, 10)
-      }
+    if (document.body.ontouchstart !== null) {
+      // 鼠标
+      mouse()
+    } else {
+      touch()
     }
-
-    canvas.onmousemove = function (e) {
-      if (flag) {
-        var x = e.clientX
-        var y = e.clientY
-        if (useEraser) {
-          ctx.clearRect(x - 5, y - 5, 10, 10)
-        } else {
-          var newPoint = {
-            x: x,
-            y: y
-          }
-          drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
-          lastPoint = newPoint
-        }
-      }
-    }
-
-    canvas.onmouseup = function (e) {
-      flag = false
-    }
-
 
     // function circle(x, y) {
     //   ctx.fillStyle = "black"
@@ -96,6 +85,10 @@
     //   ctx.arc(x, y, 2, 0, Math.PI * 2, false)
     //   ctx.fill()
     // }
+
+
+    /*************/
+
 
     function drawLine(x1, y1, x2, y2) {
       ctx.beginPath()
@@ -115,17 +108,90 @@
 
     eraser.onclick = function () {
       useEraser = true
-      eraser.className = "x"
-      brush.className = "button"
+      eraser.classList.add("active")
+      brush.classList.remove("active")
     }
 
-    brush.onclick = function(){
+    brush.onclick = function () {
       useEraser = false
-      brush.className = "x" 
-      eraser.className = "button"
+      brush.classList.add("active")
+      eraser.classList.remove("active")
     }
-    
+
+
+    function mouse() {
+      canvas.onmousedown = function (e) {
+        flag = true
+        var x = e.clientX
+        var y = e.clientY
+        lastPoint = {
+          x: x,
+          y: y
+        }
+        if (useEraser) {
+          ctx.clearRect(x - 5, y - 5, 10, 10)
+        }
+      }
+
+      canvas.onmousemove = function (e) {
+        if (flag) {
+          var x = e.clientX
+          var y = e.clientY
+          if (useEraser) {
+            ctx.clearRect(x - 5, y - 5, 10, 10)
+          } else {
+            var newPoint = {
+              x: x,
+              y: y
+            }
+            drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
+            lastPoint = newPoint
+          }
+        }
+      }
+
+      canvas.onmouseup = function (e) {
+        flag = false
+      }
+    }
+
+    function touch() {
+      canvas.ontouchstart = function (e) {
+        flag = true
+        var x = e.touches[0].clientX
+        var y = e.touches[0].clientY
+        lastPoint = {
+          x: x,
+          y: y
+        }
+        if (useEraser) {
+          ctx.clearRect(x - 5, y - 5, 10, 10)
+        }
+      }
+
+      canvas.ontouchmove = function (e) {
+        if (flag) {
+          var x = e.touches[0].clientX
+          var y = e.touches[0].clientY
+          if (useEraser) {
+            ctx.clearRect(x - 5, y - 5, 10, 10)
+          } else {
+            var newPoint = {
+              x: x,
+              y: y
+            }
+            drawLine(lastPoint.x, lastPoint.y, newPoint.x, newPoint.y)
+            lastPoint = newPoint
+          }
+        }
+      }
+
+      canvas.ontouchend = function (e) {
+        flag = false
+      }
+    }
   </script>
+  <script src="//at.alicdn.com/t/font_1232845_c8cjj14y046.js"></script>
 </body>
 
 </html>
