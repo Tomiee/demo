@@ -20,6 +20,10 @@
       padding: 0;
     }
 
+    ul li {
+      list-style: none;
+    }
+
     canvas {
       background-color: pink;
       display: block;
@@ -35,11 +39,44 @@
     .button svg {
       width: 1.5em;
       height: 1.5em;
+      transition: all 0.3s;
+      margin: 0 10px;
     }
     
     .button svg.active{
       fill: red;
       transform: scale(1.5)
+    }
+
+    .colors {
+      position: fixed;
+      left: 10px;
+      top:10px;
+    }
+
+    .colors li {
+      width: 20px;
+      height: 20px;
+      border: 1px solid gray;
+      border-radius: 50%;
+      margin: 15px 5px;
+      transition: all 0.3s;
+    }
+
+    .colors li.active{
+      transform: scale(1.2)
+    }
+
+    #red {
+      background: red;
+    }
+
+    #green {
+      background: green;
+    }
+
+    #blue {
+      background: blue;
     }
   </style>
 </head>
@@ -53,6 +90,13 @@
     <svg class="icon" aria-hidden="true" id="eraser"> 
       <use xlink:href="#icon-eraser"></use>
     </svg>
+  </div>
+  <div class="colors">
+    <ul>
+      <li id="red"></li>
+      <li id="green"></li>
+      <li id="blue"></li>
+    </ul>
   </div>
 
 
@@ -79,6 +123,27 @@
       touch()
     }
 
+
+    red.onclick = function(){
+      ctx.strokeStyle = "red"
+      red.classList.add("active")
+      green.classList.remove("active")
+      blue.classList.remove("active")
+    }
+
+    green.onclick = function(){
+      ctx.strokeStyle = "green"
+      red.classList.remove("active")
+      green.classList.add("active")
+      blue.classList.remove("active")
+    }
+
+    blue.onclick = function(){
+      ctx.strokeStyle = "blue"
+      red.classList.remove("active")
+      green.classList.remove("active")
+      blue.classList.add("active")
+    }
     // function circle(x, y) {
     //   ctx.fillStyle = "black"
     //   ctx.beginPath()
@@ -88,11 +153,10 @@
 
 
     /*************/
-
+      // 定义函数
 
     function drawLine(x1, y1, x2, y2) {
       ctx.beginPath()
-      ctx.strokeStyle = "black"
       ctx.moveTo(x1, y1)
       ctx.lineWidth = 4
       ctx.lineTo(x2, y2)
