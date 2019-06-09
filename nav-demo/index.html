@@ -13,28 +13,56 @@
   }
 
   body {
-    height: 100vh;
-    background-color: pink;
+    /* height: 100vh; */
+    background:url(https://i.loli.net/2019/06/09/5cfc78d0e6ff866282.jpg) no-repeat;
+    background-size: cover;
+  }
+
+  header {
+    height: 30vh;
   }
 
   .wrap {
     display: flex;
+    padding: 30px 0;
     flex-direction: column;
-    justify-content: space-between;
+    margin: 0 auto;
+    width: 900px;
     align-items: center;
+    background-color: rgba(243, 243, 243,0.3);
+    border-radius: 30px;
   }
 
   .kbd {
+    font-size: 18px;
+    padding-left: 10px;
+    padding-top: 5px;
     display: inline-block;
-    width: 50px;
+    margin: 10px;
+    width: 45px;
     height: 40px;
-    background-color: grey;
+    border-radius: 5px;
+    background-color: darkslategray;
+    border: 2px solid grey;
+    box-shadow: 1px 4px 2px 1px black;
+    color: aliceblue;
+    position: relative;
   }
 
   .edit {
     display: none;
+    position: absolute;
+    top:10px;
+    right: 5px;
     font-size: 12px;
     line-height: 12px;
+  }
+
+  .img_ico {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    margin-left: 15px;
   }
 
   .kbd:hover .edit {
@@ -73,11 +101,14 @@
         var kbd = tag("kbd")
         var span = tag("span")
         var button = createButton(keys[i][j])
+        var img = createImg(hash[keys[i][j]])
         kbd.className = "kbd"
         button.className = "edit"
+        img.className = "img_ico"
         div.appendChild(kbd)
         kbd.appendChild(span)
         kbd.appendChild(button)
+        kbd.appendChild(img)
         span.innerText = keys[i][j]
         button.innerText = "编辑"
       }
@@ -107,9 +138,11 @@
       button.onclick = function(e){
         console.log(e.target.id)
         var button2 = e.target
+        var img2 = button2.previousSibling
         var key = button2.id
         var x = prompt("请输入一个网址")
         hash[key] = x
+        img2.src = 'http://'+x + 'favicon.ico'
         localStorage.setItem("sss",JSON.stringify(hash))
         init()
         console.log(hash)
@@ -119,6 +152,19 @@
 
     function getFromLocalStorage(name){
       return JSON.parse(localStorage.getItem(name)||"null")
+    }
+
+    function createImg(domin){
+      var img = tag('img')
+      if(domin){
+        img.src = 'http://'+ domin + "/favicon.ico"
+      }else{
+        img.src = 'https://i.loli.net/2019/06/09/5cfc8334d0bd835045.png'
+      }
+      img.onerror = function(xxx){
+				xxx.target.src = 'https://i.loli.net/2019/06/09/5cfc8334d0bd835045.png'
+			}
+			return img
     }
 
     function init(){
