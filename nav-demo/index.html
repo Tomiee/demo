@@ -94,25 +94,8 @@
 
     init()
 
-    for (var i = 0; i < keys.length; i++) {
-      var div = tag("div")
-      wrap.appendChild(div)
-      for (var j = 0; j < keys[i].length; j++) {
-        var kbd = tag("kbd")
-        var span = tag("span")
-        var button = createButton(keys[i][j])
-        var img = createImg(hash[keys[i][j]])
-        kbd.className = "kbd"
-        button.className = "edit"
-        img.className = "img_ico"
-        div.appendChild(kbd)
-        kbd.appendChild(span)
-        kbd.appendChild(button)
-        kbd.appendChild(img)
-        span.innerText = keys[i][j]
-        button.innerText = "编辑"
-      }
-    }
+    createKeyboard()
+
 
     document.onkeypress = function(e){
       console.log(e)
@@ -138,13 +121,16 @@
       button.onclick = function(e){
         console.log(e.target.id)
         var button2 = e.target
-        var img2 = button2.previousSibling
+        var img2 = button2.nextSibling
+        console.log('test:'+img2)
         var key = button2.id
         var x = prompt("请输入一个网址")
         hash[key] = x
-        img2.src = 'http://'+x + 'favicon.ico'
+        img2.src = 'https://'+x+ '/favicon.ico'
+        img2.onerror = function(xxx){
+				xxx.target.src = 'https://i.loli.net/2019/06/09/5cfc8334d0bd835045.png'
+			}
         localStorage.setItem("sss",JSON.stringify(hash))
-        init()
         console.log(hash)
       }
       return button
@@ -173,6 +159,28 @@
         hash = hashInLocalStorage
       }
       return hash
+    }
+
+    function createKeyboard(){
+      for (var i = 0; i < keys.length; i++) {
+      var div = tag("div")
+      wrap.appendChild(div)
+      for (var j = 0; j < keys[i].length; j++) {
+        var kbd = tag("kbd")
+        var span = tag("span")
+        var button = createButton(keys[i][j])
+        var img = createImg(hash[keys[i][j]])
+        kbd.className = "kbd"
+        button.className = "edit"
+        img.className = "img_ico"
+        div.appendChild(kbd)
+        kbd.appendChild(span)
+        kbd.appendChild(button)
+        kbd.appendChild(img)
+        span.innerText = keys[i][j]
+        button.innerText = "编辑"
+      }
+    }
     }
   </script>
 </body>
