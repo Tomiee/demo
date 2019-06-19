@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>slider</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    body{
+      background-color: #8d6752;
+    }
+
+    .wrap {
+      width: 1000px;
+      height: 580px;
+      margin: 50px auto;
+    }
+
+    .content {
+      position: relative;
+      height: 100%;
+      transform: perspective(500px);
+    }
+
+    .content li {
+      list-style: none;
+      height: 522px;
+      width: 318px;
+      position: absolute;
+      transition: all 2s;
+    }
+
+    .content li img {
+      width: 100%;
+      height: 100%;
+    }
+
+    .control {
+      width: 1000px;
+      height: 71px;
+      top: 255px;
+      position: absolute;
+    }
+
+    .clearfix::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    .control li {
+      cursor:pointer;
+    }
+
+    .control li:first-child {
+      float: left;
+    }
+
+    .control li:last-child {
+      float: right;
+    }
+
+    .left {
+      left: 100px;
+      z-index: 1;
+      transform: scale(0.8) rotateY(45deg);
+    }
+
+    .middle {
+      left: 341px;
+      z-index: 2;
+    }
+
+    .right {
+      left: 585px;
+      z-index: 1;
+      transform: scale(0.8) rotateY(-45deg);
+    }
+
+    .shadow {
+      z-index: 0;
+      left: 341px;
+      opacity: 0;
+      transform: scale(0.6)
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <ul class="content">
+      <li><img src="image/ban_1_989ca15.png" alt=""></li>
+      <li><img src="image/ban_2_5553894.png" alt=""></li>
+      <li><img src="image/ban_3_61413c1.png" alt=""></li>
+      <li><img src="image/ban_4_16a29e8.png" alt=""></li>
+      <li><img src="image/ban_5_20cea2a.png" alt=""></li>
+      <li><img src="image/ban_6_bacc637.png" alt=""></li>
+      <li><img src="image/ban_7_2b8955e.png" alt=""></li>
+      <li><img src="image/ban_8_63da2e3.png" alt=""></li>
+    </ul>
+    <ul class="control clearfix">
+      <li><img src="image/kapai_tc_prev_6c5247e.png" alt=""></li>
+      <li><img src="image/kapai_tc_next_d2a55d9.png" alt=""></li>
+    </ul>
+  </div>
+
+
+
+  <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+  <script>
+    //初始化
+    var n = 0
+    var length = $('.content li').length
+    // var y = 0,
+    //   y1 = 1,
+    //   y2 = 2
+
+    // function put(){
+    //   y = n%($('.content li').length)>=0?n%($('.content li').length):(n%($('.content li').length)+8)
+    //   y1 = (n+1)%($('.content li').length)>=0?(n+1)%($('.content li').length):((n+1)%($('.content li').length)+8)
+    //   y2 = (n+2)%($('.content li').length)>=0?(n+2)%($('.content li').length):((n+2)%($('.content li').length)+8)
+
+    //   for(let i=0;i<length;i++){
+    //     $('.content li').eq(i).removeClass('left middle right shadow')
+    //   }
+
+    //   for(let i=0;i<$('.content li').length;i++){
+    //     $('.content li').eq(i).addClass('shadow')
+    //   }
+
+    //   $('.content li').eq(y).removeClass('shadow').addClass('left')
+    //   $('.content li').eq(y1).removeClass('shadow').addClass('middle')
+    //   $('.content li').eq(y2).removeClass('shadow').addClass('right')
+    // }
+
+    var arr = ['left', 'middle', 'right', 'shadow', 'shadow', 'shadow', 'shadow', 'shadow']
+
+    console.log(arr[1])
+
+    function put() {
+      for (var i = 0; i < length; i++) {
+        $('.content li').eq(i).addClass(arr[i])
+      }
+    }
+
+    put()
+
+
+    function remove() {
+      for (var i = 0; i < length; i++) {
+        $('.content li').eq(i).removeClass(arr[i])
+      }
+    }
+
+    function change1() {
+      arr.unshift(arr.pop())
+    }
+
+    function change2() {
+      arr.push(arr.shift())
+    }
+
+    // 注册点击事件
+    $('.control li').eq(0).click(function () {
+      console.log(1)
+      remove()
+      change2()
+      put()
+    })
+    $('.control li').eq(1).click(function () {
+      remove()
+      change1()
+      put()
+    })
+
+    var timer = setInterval(function () {
+      remove()
+      change1()
+      put()
+    }, 3000)
+
+    $('.control').hover(function () {
+        window.clearInterval(timer)
+      },
+      function () {
+        timer = setInterval(function () {
+          remove()
+          change1()
+          put()
+        }, 4000)
+      })
+  </script>
+
+</body>
+
+</html>
