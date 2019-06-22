@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>slider</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    li {
+      list-style: none;
+    }
+
+    body {
+      box-sizing:  content-box;
+    }
+
+    .box {
+      box-shadow: 0 0 1px 1px #ccc;
+      width: 1000px;
+      margin: 0 auto;
+    }
+
+    .wrap {
+      width: 1000px;
+      height: 562px;
+      overflow: hidden;
+    }
+
+    .wrap ul {
+      display: flex;
+      flex-flow: row nowrap;
+      height: 562px;
+      transform: translateX(0);
+      transition: all 0.5s;
+    }
+
+    .wrap ul li {
+      height: 562px;
+    }
+
+    .wrap ul img {
+      height: 100%;
+      padding: 5% 9%;
+      box-sizing: border-box;
+    }
+
+    .small {
+      width: 1000px;
+      height: 100px;
+    }
+
+    .small ul {
+      margin:0 auto;
+      display: flex;
+      justify-content: center;
+    }
+
+    .small ul li {
+      height: 100px;
+      padding: 15px;
+      box-sizing: border-box;
+      position: relative;
+    }
+
+    .small ul li:hover {
+      cursor: pointer;
+      box-shadow: 0 0 2px 1px grey;
+    }
+
+    .small ul li:hover::before {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 0px;
+      left: 70px;
+      border:5px solid transparent;
+      border-top: 5px solid #79797b;
+    }
+
+    .small li img {
+      height: 100%;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="box">
+    <div class="wrap">
+      <ul>
+        <li><img src="img/1-1.jpg" alt=""></li>
+        <li><img src="img/2-1.jpg" alt=""></li>
+        <li><img src="img/3-1.jpg" alt=""></li>
+        <li><img src="img/4-1.jpg" alt=""></li>
+        <li><img src="img/5-1.jpg" alt=""></li>
+      </ul>
+    </div>
+    <div class="small">
+      <ul>
+          <li><img src="img/1-1.jpg" alt=""></li>
+          <li><img src="img/2-1.jpg" alt=""></li>
+          <li><img src="img/3-1.jpg" alt=""></li>
+          <li><img src="img/4-1.jpg" alt=""></li>
+          <li><img src="img/5-1.jpg" alt=""></li>
+      </ul>
+    </div>
+  </div>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+    console.log($('.small ul li'))
+    for(let i=0;i<$('.small ul li').length;i++){
+      $('.small ul li').eq(i).on('click',function(){
+        $('.wrap ul').css('transform','translateX('+(-1000*i)+'px)')
+      })
+    }
+  </script>
+</body>
+
+</html>
