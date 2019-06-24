@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>ajax</title>
+</head>
+
+<body>
+  <button id="btn">发ajax请求</button>
+
+
+
+
+  <script>
+    window.jQuery = function (node) {
+      let nodes = {}
+      nodes.addclass = function () {}
+      return nodes
+    }
+
+    window.$ = window.jQuery
+
+    // window.jQuery.ajax = function (url, method, body, successFn, failFn) {
+    //   console.log(2)
+    //   let request = new XMLHttpRequest
+    //   request.open(method, url)
+    //   request.onreadystatechange = function () {
+    //     if (request.readyState == 4) {
+    //       if (request.status == 200) {
+    //         console.log(request.responseText)
+    //         successFn()
+    //       } else {
+    //         console.log('失败了')
+    //         failFn()
+    //       }
+    //     }
+    //   }
+    //   request.send(body)
+    // }
+
+    window.jQuery.ajax = function({url,method,body,headers}){
+      return new Promise(function(resolve,reject){
+        console.log('fuck')
+        let request = new XMLHttpRequest
+        request.open(method,url)
+        for(key in headers){
+          let value  = headers[key]
+          request.setRequestHeader(key,value)
+          console.log('head')
+        }
+        request.onreadystatechange = function(){
+          if(request.readyState == 4){
+            if(request.status == 200){
+              resolve.call(undefined,request.responseText)
+            }else{
+              reject.call(undefined,request)
+            }
+          }
+        }
+        request.send(body)
+      })
+    }
+
+    btn.onclick = function () {
+      console.log(1)
+      $.ajax({url:'/ajaxRequest',method:'post',body:'name=xxx',headers:{'Content-Type': 'application/x-www-form-urlencoded'}}).then(()=>{console.log('success')},()=>console.log('fail'))
+    }
+
+    // btn.onclick = function () {
+    //   console.log(1)
+    //   $.ajax('/ajaxRequest', 'post', 'name=shit', function () {
+    //     console.log('sss')
+    //   }, function () {
+    //     console.log('fff')
+    //   })
+    // }
+  </script>
+</body>
+
+</html>
