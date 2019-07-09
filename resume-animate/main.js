@@ -41,22 +41,49 @@ var paperStyle = `/*
 */
 
 #paper {
-  width: 200px;
-  height: 200px;
-  background: yellow
+  width: 50%;
+  height: 100%;
+  background: white;
+  position: fixed;
+  right: 0;
+  top:0;
+  border: 1px solid red;
+  padding:20px
 }
+
+#markdown {
+  width:100%;
+  height:100%;
+  background:grey
+}
+
 `
 
+var myResume = `
+### 这是markdown语法
+. 姓名
+. 毕业学校
+. continue...
+`
+
+// 写简历之前的代码
 writeCode(style, () => {
   creatPaper()
 })
+
+// 简历
+markdown(myResume)
 
 
 function creatPaper() {
   var paper = document.createElement('div')
   paper.id = 'paper'
   document.body.appendChild(paper)
-  writeCode(paperStyle,()=>{})
+  writeCode(paperStyle,()=>{
+    var div = document.createElement('div')
+    div.id = 'markdown'
+    document.getElementById('paper').appendChild(div)
+  })
 }
 
 
@@ -69,12 +96,25 @@ function writeCode(newCode, callback) {
     var content = newCode.substring(0, n)
     document.getElementById('code').innerHTML = oldCode_prism + Prism.highlight(content, Prism.languages.css, 'css')
     document.getElementById('myStyle').innerHTML = oldCode + newCode.substring(0, n)
-    document.getElementById('code').scrollTop = 100000
+    document.getElementById('code').scrollTop = document.getElementById('code').scrollHeight
     console.log(1)
     if (n > newCode.length) {
       clearInterval(timer)
       callback() //creatPaper
       console.log('f2')
     }
-  }, 30)
+  }, 0)
+}
+
+function markdown(resume){
+  var n = 1
+  var timer = setInterval(function () {
+    n++
+    document.getElementById('markdown').innerHTML = resume.substring(0, n)
+    document.getElementById('markdown').scrollTop = document.getElementById('code').scrollHeight
+    console.log(1)
+    if (n > newCode.length) {
+      clearInterval(timer)
+    }
+  }, 20)
 }
