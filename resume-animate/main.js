@@ -110,7 +110,7 @@ function markdown(resume){
   var n = 1
   var timer = setInterval(function () {
     n++
-    document.getElementById('markdown').innerHTML = resume.substring(0, n)
+    document.getElementById('markdown').innerHTML = marked(resume.substring(0, n))
     document.getElementById('markdown').scrollTop = document.getElementById('code').scrollHeight
     console.log(1)
     if (n > newCode.length) {
